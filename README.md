@@ -12,6 +12,14 @@ Open <http://127.0.0.1:4173>. The site is static HTML, CSS, and JavaScript; no b
 step, external fonts, analytics, or third-party scripts are required. The root
 `index.html` and `.nojekyll` are ready for GitHub Pages.
 
+Link previews use `assets/plug-preview.png`, a 512 × 512 PNG export of the existing
+favicon. Both pages reference it with an absolute URL in Open Graph and Twitter
+metadata. To regenerate it with librsvg:
+
+```sh
+rsvg-convert --width 512 --height 512 --output assets/plug-preview.png assets/favicon.svg
+```
+
 ## Contents
 
 - A business-requirements-first introduction and an eight-second workflow
