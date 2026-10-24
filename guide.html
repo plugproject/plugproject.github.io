@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f9f5" />
+    <meta
+      name="description"
+      content="A guide to Plug workflow graphs, business requirements on connections, and MCP integration with your coding agent."
+    />
+    <title>Workflow guide — Plug</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="index.html" aria-label="Plug home"
+        ><svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M10 3v9M22 3v9M6 12h20v5a10 10 0 0 1-10 10v3M6 17h20" /></svg
+        ><span>plug</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="index.html#how-it-works">How it works</a
+        ><a href="#ide">IDE setup</a><a href="#quickstart">Get started ↗</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap guide-layout">
+      <aside class="guide-sidebar">
+        <nav aria-label="Guide contents">
+          <span class="eyebrow">WORKFLOW GUIDE</span
+          ><a href="#workflow">The workflow graph</a
+          ><a href="#requirements">Business requirements</a
+          ><a href="#ide">MCP &amp; agent guidance</a
+          ><a href="#quickstart">Run locally</a
+          ><a href="#patterns">Pattern knowledge</a
+          ><a href="#intake">System intake</a
+          ><a href="#specification">The specification</a
+          ><a href="#source">Repository access</a>
+        </nav>
+      </aside>
+      <article class="guide-content">
+        <div class="guide-heading">
+          <span class="eyebrow">PLUG / A SHARED SYSTEM DESIGN</span>
+          <h1>From business intent<br />to implementation.</h1>
+          <p>
+            People define what the business needs. Plug represents those needs
+            in a workflow graph, derives the integration architecture, and makes
+            the design available to your coding agent.
+          </p>
+        </div>
+        <section id="workflow">
+          <span class="eyebrow">01 / MODEL THE WORKFLOW</span>
+          <h2>Endpoints are nodes.<br />Requirements live on edges.</h2>
+          <p>
+            Group operations by system or vendor. Each operation is a node: an
+            API endpoint, an MCP tool, or an A2A skill. Connect one operation to
+            another to describe the workflow.
+          </p>
+          <p>
+            Each edge has its own required experience and priorities. Two
+            connections to the same vendor can have different latency,
+            freshness, or reliability requirements.
+          </p>
+          <figure class="guide-graph">
+            <div class="guide-graph-node">
+              <span class="mono">COMMERCE PLATFORM</span
+              ><strong>Order endpoint</strong>
+            </div>
+            <div class="guide-graph-edge">
+              <span class="mono">No duplicate side effects</span
+              ><span aria-hidden="true">────────→</span
+              ><span class="mono">Completion deadline</span>
+            </div>
+            <div class="guide-graph-node">
+              <span class="mono">FULFILLMENT VENDOR</span
+              ><strong>Shipment endpoint</strong>
+            </div>
+            <figcaption>
+              Illustrative connection: business requirements belong to the edge.
+            </figcaption>
+          </figure>
+          <p>
+            In the workbench, connect operations using their
+            <strong>+</strong> handles. Select an edge to edit its requirements
+            in the inspector. Export the graph as an Open Workflow Specification
+            document to keep it with your project.
+          </p>
+        </section>
+        <section id="requirements">
+          <span class="eyebrow">02 / DEFINE THE EXPERIENCE</span>
+          <h2>Make QoS a business decision.</h2>
+          <p>
+            Quality of service describes the experience a connection must
+            deliver. Keep requirements separate from known facts about a
+            provider: “respond within 500 ms” is a requirement; “this endpoint
+            takes 15 seconds” is a fact.
+          </p>
+          <div class="guide-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Requirement</th>
+                  <th>The business question</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Response time &amp; scope</td>
+                  <td>
+                    How fast must a useful result arrive, and for which
+                    requests?
+                  </td>
+                </tr>
+                <tr>
+                  <td>Freshness &amp; correctness</td>
+                  <td>
+                    How old can data be? Are indicative results acceptable?
+                  </td>
+                </tr>
+                <tr>
+                  <td>Deferred completion</td>
+                  <td>Can work finish later? What is its final deadline?</td>
+                </tr>
+                <tr>
+                  <td>Availability</td>
+                  <td>What availability must this connection deliver?</td>
+                </tr>
+                <tr>
+                  <td>Side effects &amp; delivery</td>
+                  <td>
+                    Are duplicate effects or lost requests forbidden? Must order
+                    be preserved?
+                  </td>
+                </tr>
+                <tr>
+                  <td>Priorities</td>
+                  <td>
+                    How should correctness, latency, availability, simplicity,
+                    and cost be ranked?
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Declare caching and scheduling permissions explicitly. Plug uses the
+            requirements and facts to evaluate designs; it does not invent
+            missing vendor guarantees or silently relax your requirements.
+          </p>
+        </section>
+        <section id="ide">
+          <span class="eyebrow">03 / CARRY THE DESIGN INTO CODE</span>
+          <h2>Give the IDE access.<br />Give the agent instructions.</h2>
+          <p>
+            Plug provides an MCP server that exposes the workspace design to an
+            agentic IDE. Its generated <code>.plug/AGENTS.md</code> explains how
+            to read the spec, update it after an integration change, and
+            preserve unknown facts.
+          </p>
+          <p>
+            The intended experience is persistent design context in your IDE.
+            Today, the implementation provides MCP registration and generated
+            agent guidance; it does not automatically install a separate
+            <code>SKILL.md</code> package. Add a reference to the generated
+            guidance in the instructions your IDE actually loads.
+          </p>
+          <div class="guide-callout">
+            <strong>Suggested project instruction</strong>
+            <p>
+              Before changing an integration, read the current design using
+              <code>plug_get_spec</code> and follow
+              <code>.plug/AGENTS.md</code>. When endpoints, requirements, or
+              integration behavior change, record the change through
+              <code>plug_update_spec</code> and review the updated analysis. Do
+              not invent unknown system facts.
+            </p>
+          </div>
+          <p>
+            After building and installing the local package using the
+            <a href="#quickstart">setup steps below</a>, run these commands in
+            the project you want the agent to work on. Replace
+            <code>input.json</code> with your Plug design input or exported
+            workflow document.
+          </p>
+          <pre><code>npx --no-install plug spec input.json
+npx --no-install plug mcp install --ide cursor</code></pre>
+          <p>
+            Other supported IDE values are <code>vscode</code>,
+            <code>claude</code>, and <code>generic</code>. Reload your IDE’s MCP
+            servers after registration.
+          </p>
+          <dl class="tool-list">
+            <div>
+              <dt><code>plug_get_spec</code></dt>
+              <dd>Read the current workflow, requirements, and design.</dd>
+            </div>
+            <div>
+              <dt><code>plug_update_spec</code></dt>
+              <dd>
+                Validate a change, re-analyze it, and update the workspace
+                bundle.
+              </dd>
+            </div>
+            <div>
+              <dt><code>plug_analyze</code></dt>
+              <dd>Evaluate a design input or workflow.</dd>
+            </div>
+            <div>
+              <dt><code>plug_explain</code></dt>
+              <dd>
+                Read the design reasoning, proofs, and implementation tasks.
+              </dd>
+            </div>
+            <div>
+              <dt><code>plug_index_workspace</code></dt>
+              <dd>
+                Draft system information from the local project for review.
+              </dd>
+            </div>
+          </dl>
+          <p>
+            The agent needs to follow the project instructions and use the
+            tools. MCP makes the design available; it does not automatically
+            enforce every code change.
+          </p>
+        </section>
+        <section id="quickstart">
+          <span class="eyebrow">04 / RUN LOCALLY</span>
+          <h2>Start with one connection.</h2>
+          <p>
+            You need Node 24 and access to the source repository. If you use
+            nvm, <code>nvm use</code> selects the version declared by the
+            project. Otherwise, install Node 24 with your usual version manager.
+          </p>
+          <pre><code>git clone git@github.com:plugproject/plug.git
+cd plug
+nvm use
+npm ci
+npm run dev</code></pre>
+          <p>
+            The workbench runs at <code>http://localhost:3000</code>. Add your
+            systems, connect their operations, and set the experience on each
+            edge. Review the proposed architecture and its assumptions before
+            implementing it.
+          </p>
+          <h3>Use Plug in another workspace</h3>
+          <p>Build and package the local CLI from the Plug checkout:</p>
+          <pre><code>npm run build
+npm pack --workspace @plugproject/plug --pack-destination /tmp</code></pre>
+          <p>
+            Then install the resulting tarball in your application’s workspace.
+            Use the actual file path printed by <code>npm pack</code>:
+          </p>
+          <pre><code>npm install /absolute/path/to/plug-package.tgz
+npx --no-install plug ui</code></pre>
+          <p>
+            The packaged local workbench defaults to
+            <code>http://127.0.0.1:4319</code>. Continue with
+            <a href="#ide">MCP registration and agent guidance</a> to connect
+            your IDE. Public npm distribution is not yet available.
+          </p>
+        </section>
+        <section id="patterns">
+          <span class="eyebrow">05 / GROW THE KNOWLEDGE</span>
+          <h2>Explain why a pattern belongs.</h2>
+          <p>
+            Plug’s knowledge base describes the problems a pattern solves, the
+            obligations it introduces, its contraindications, and its tradeoffs.
+            The engine composes and evaluates these patterns against each
+            connection.
+          </p>
+          <p>
+            For example, a retry introduces a duplication question; a queue
+            introduces capacity and waiting-time questions. A proposed design
+            must close detected problems and satisfy the obligations created by
+            its components.
+          </p>
+          <p>
+            Useful contributions include a concrete integration case, the facts
+            known about the systems, the experience required, and a pattern or
+            missing obligation that the engine should consider. The canonical
+            contracts live in <code>schema/draft/schema.ts</code> in the
+            repository.
+          </p>
+        </section>
+        <section id="intake">
+          <span class="eyebrow">06 / BRING SYSTEMS INTO VIEW</span>
+          <h2>Start from the interfaces you have.</h2>
+          <p>
+            The current intake supports manual JSON/YAML, MCP tool-list
+            metadata, and A2A Agent Cards. Workspace indexing can draft system
+            information from OpenAPI documents, Agent Cards, package manifests,
+            and source markers.
+          </p>
+          <p>
+            Review imported or indexed information before adopting it. Interface
+            descriptions do not necessarily specify operational latency, quotas,
+            availability, or caching permission. Those facts may still need an
+            author.
+          </p>
+          <p>
+            Deeper discovery, richer indexing, and better importers are areas
+            for contribution. The reference package lives in
+            <code>packages/plug</code>.
+          </p>
+        </section>
+        <section id="specification">
+          <span class="eyebrow">07 / CHALLENGE THE CONTRACT</span>
+          <h2>Make the design reviewable.</h2>
+          <p>
+            The specification is a draft. Proposed changes should make the
+            relationship between declared facts, business requirements, chosen
+            patterns, and proof obligations clearer.
+          </p>
+          <p>
+            Major behavior or contract changes use the project’s specification
+            enhancement proposal process in <code>seps/</code>. A useful
+            proposal states the problem, a concrete example, the proposed
+            contract, alternatives, and how the behavior can be verified.
+          </p>
+          <div class="guide-callout">
+            <strong>Current scope</strong>
+            <p>
+              Plug produces architecture designs. It does not deploy
+              integrations. Execution is limited to the supported seed designs;
+              generated compositions require implementation. Synthetic replay is
+              not a production SLO measurement.
+            </p>
+          </div>
+        </section>
+        <section id="source">
+          <span class="eyebrow">08 / REPOSITORY ACCESS</span>
+          <h2>About the source repository.</h2>
+          <p>
+            The repository is <code>github.com/plugproject/plug</code>. GitHub
+            currently returns 404 to visitors without access, including for its
+            README and documentation. The guide on this site is available
+            without that access.
+          </p>
+          <p>
+            If you already have repository access, sign in to the matching
+            GitHub account or use the SSH clone command in the
+            <a href="#quickstart">local setup</a>. Otherwise, you’ll need
+            repository access from the project owner. This site does not grant
+            access.
+          </p>
+          <p>
+            Distribution licensing is still being decided. For now,
+            collaborators with repository access can raise issues and proposals
+            there. No public package installation or public repository
+            availability is implied.
+          </p>
+        </section>
+        <a class="text-link guide-back" href="index.html">← Back to Plug</a>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <a class="brand" href="index.html">plug</a
+      ><span class="mono small muted">Business intent, by design.</span>
+      <div>
+        <a href="#workflow">Workflow guide ↑</a
+        ><a href="index.html#build-with-us">The project ↗</a>
+      </div>
+    </footer>
+  </body>
+</html>

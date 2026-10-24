@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f9f5" />
+    <meta
+      name="description"
+      content="Define business requirements on a graph of vendor endpoints. Plug derives the integration design and brings it into your agentic IDE through MCP."
+    />
+    <meta
+      property="og:title"
+      content="Plug — Your requirements. Your workflow. Your agent."
+    />
+    <meta
+      property="og:description"
+      content="Connect vendor endpoints. Define QoS on each edge. Keep your coding agent connected to the system design."
+    />
+    <meta property="og:type" content="website" />
+    <title>Plug — Your requirements. Your workflow. Your agent.</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="#" aria-label="Plug home"
+        ><svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M10 3v9M22 3v9M6 12h20v5a10 10 0 0 1-10 10v3M6 17h20" /></svg
+        ><span>plug</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#build-with-us">The project</a>
+        <a class="nav-source" href="guide.html"
+          >Guide <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="eyebrow">
+          <span class="status-dot"></span> Business requirements → system design
+          → your coding agent
+        </div>
+        <h1 id="hero-title">
+          You define the requirements.<br /><span>Plug connects the dots.</span>
+        </h1>
+        <div class="hero-bottom">
+          <p class="intro">
+            Connect endpoints from different vendors in a workflow graph. Define
+            what each connection must deliver. Plug derives the design and
+            brings it into your agent’s IDE through MCP.
+          </p>
+          <div class="hero-action">
+            <a class="button button-dark" href="#how-it-works"
+              >See the workflow <span aria-hidden="true">↗</span></a
+            ><span class="mono small muted"
+              >Business intent, carried into implementation.</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="architecture"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Three workflow design examples"
+        >
+          <div class="diagram-toolbar">
+            <h2 id="architecture-title" class="mono small">
+              A connection, thought through.
+            </h2>
+            <div class="slideshow-controls">
+              <span id="slide-count" class="mono">01 / 03</span>
+              <button
+                id="previous-slide"
+                type="button"
+                aria-label="Previous example"
+              >
+                ←
+              </button>
+              <button id="next-slide" type="button" aria-label="Next example">
+                →
+              </button>
+              <button id="slideshow-toggle" type="button">
+                Pause slideshow
+              </button>
+            </div>
+          </div>
+          <div
+            class="scenario-tabs"
+            role="tablist"
+            aria-label="Explore a business requirement"
+          >
+            <button
+              type="button"
+              id="tab-latency"
+              role="tab"
+              aria-selected="true"
+              aria-controls="scenario-panel"
+              tabindex="0"
+              data-scenario="latency"
+            >
+              <span class="tab-index">01</span> Fast responses<span
+                class="tab-progress"
+                aria-hidden="true"
+              ></span>
+            </button>
+            <button
+              type="button"
+              id="tab-duplicates"
+              role="tab"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              tabindex="-1"
+              data-scenario="duplicates"
+            >
+              <span class="tab-index">02</span> One side effect<span
+                class="tab-progress"
+                aria-hidden="true"
+              ></span>
+            </button>
+            <button
+              type="button"
+              id="tab-bursts"
+              role="tab"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              tabindex="-1"
+              data-scenario="bursts"
+            >
+              <span class="tab-index">03</span> Bounded load<span
+                class="tab-progress"
+                aria-hidden="true"
+              ></span>
+            </button>
+          </div>
+          <div
+            id="scenario-panel"
+            role="tabpanel"
+            aria-labelledby="tab-latency"
+            aria-live="off"
+            aria-atomic="true"
+            tabindex="0"
+          >
+            <div class="business-intent">
+              <span class="mono">THE BUSINESS REQUIREMENT</span>
+              <p id="business-intent">
+                “Show customers useful flight options without making them wait.”
+              </p>
+            </div>
+            <div class="connection-canvas">
+              <div class="system-node">
+                <span class="node-icon" aria-hidden="true">⌘</span>
+                <span class="mono node-kind">ENDPOINT NODE</span>
+                <strong id="caller-name">GET /offers</strong>
+                <span id="caller-fact">Travel app · search endpoint</span>
+              </div>
+              <div class="connector connector-in" aria-hidden="true">
+                <span>connection</span><i></i>
+              </div>
+              <div class="plug-node edge-requirements">
+                <span class="mono node-kind">EDGE / BUSINESS REQUIREMENTS</span>
+                <strong id="requirement-name">A fast first response</strong>
+                <div class="pattern-line">
+                  <span class="mini-node" id="requirement-first"
+                    >Within 500 ms</span
+                  ><span class="mini-node" id="requirement-second"
+                    >Up to 60 s old</span
+                  >
+                </div>
+                <span class="pattern-detail" id="requirement-detail"
+                  >Caching explicitly permitted</span
+                >
+              </div>
+              <div class="connector connector-out" aria-hidden="true">
+                <span>connection</span><i></i>
+              </div>
+              <div class="system-node">
+                <span class="node-icon node-icon-api" aria-hidden="true"
+                  >{ }</span
+                >
+                <span class="mono node-kind">VENDOR ENDPOINT NODE</span>
+                <strong id="downstream-name">GET /flights</strong>
+                <span id="downstream-fact">Vendor A · 15-second response</span>
+              </div>
+            </div>
+            <div class="diagram-reason">
+              <span class="reason-mark" aria-hidden="true">↳</span>
+              <div>
+                <strong id="reason-title"
+                  >Plug considers scheduled caching.</strong
+                >
+                <p id="reason-detail">
+                  The edge defines response time and freshness. With cache
+                  permission, Plug evaluates serving eligible results from a
+                  refreshed cache and exposes the remaining assumptions.
+                </p>
+              </div>
+              <span class="mono example-label">DERIVED DESIGN</span>
+            </div>
+          </div>
+          <div class="diagram-footnote">
+            <span
+              >Illustrative requirements and designs; not a live analysis.</span
+            ><span id="playback-status" class="mono"
+              >ADVANCES EVERY 8 SECONDS</span
+            >
+          </div>
+        </div>
+        <div class="hero-facts mono">
+          <span>Nodes are endpoints</span><span>Edges carry requirements</span
+          ><span>Your agent reads the design</span>
+        </div>
+      </section>
+
+      <section
+        class="problem-section wrap section-space"
+        aria-labelledby="problem-title"
+      >
+        <div class="section-heading">
+          <span class="eyebrow">01 / START WITH THE BUSINESS</span>
+          <h2 id="problem-title">
+            Care about the outcome.<br /><span class="muted"
+              >Make the requirements explicit.</span
+            >
+          </h2>
+        </div>
+        <div class="problem-grid">
+          <article>
+            <span class="problem-symbol" aria-hidden="true">↗</span>
+            <h3>How fast should it feel?</h3>
+            <p>
+              Define response time, acceptable freshness, and how long a
+              customer can wait for a final result.
+            </p>
+          </article>
+          <article>
+            <span class="problem-symbol" aria-hidden="true">↻</span>
+            <h3>What must never go wrong?</h3>
+            <p>
+              Make duplicate side effects, lost work, ordering, and availability
+              requirements part of the connection.
+            </p>
+          </article>
+          <article>
+            <span class="problem-symbol" aria-hidden="true">⌁</span>
+            <h3>What matters most?</h3>
+            <p>
+              Set the priorities for each edge: correctness, latency,
+              availability, simplicity, and cost.
+            </p>
+          </article>
+        </div>
+        <p class="section-note">
+          You define what the business needs.
+          <strong
+            >Plug derives the integration design from those requirements and the
+            system facts.</strong
+          >
+        </p>
+      </section>
+
+      <section
+        id="how-it-works"
+        class="how-section section-space"
+        aria-labelledby="how-title"
+      >
+        <div class="wrap">
+          <div class="section-heading">
+            <span class="eyebrow">02 / THE WORKFLOW</span>
+            <div class="split-heading">
+              <h2 id="how-title">
+                Draw the workflow.<br />Define the experience.
+              </h2>
+              <p>
+                A system is more than its APIs. Plug makes the requirements
+                between them part of the design.
+              </p>
+            </div>
+          </div>
+          <ol
+            class="derivation-diagram"
+            aria-label="From business requirements to an agent-readable system design"
+          >
+            <li>
+              <span class="step-label mono">01 / CONNECT</span>
+              <h3>Add vendor endpoints</h3>
+              <p>
+                Bring operations from your systems and different vendors into
+                one workflow graph.
+              </p>
+              <span class="step-tag mono">Endpoints become nodes</span>
+            </li>
+            <li>
+              <span class="step-label mono">02 / DEFINE</span>
+              <h3>Set QoS on each edge</h3>
+              <p>
+                Specify response time, freshness, reliability, and the tradeoffs
+                your business accepts.
+              </p>
+              <span class="step-tag mono">Connections carry intent</span>
+            </li>
+            <li>
+              <span class="step-label mono">03 / DERIVE</span>
+              <h3>Review the design</h3>
+              <p>
+                Plug checks the facts, composes integration patterns, and
+                explains each recommendation.
+              </p>
+              <span class="step-tag mono">Decisions have reasons</span>
+            </li>
+            <li>
+              <span class="step-label mono">04 / BUILD</span>
+              <h3>Connect your IDE</h3>
+              <p>
+                Expose the spec through MCP so your coding agent can read and
+                update the system design.
+              </p>
+              <span class="step-tag mono">Intent stays with the code</span>
+            </li>
+          </ol>
+          <div class="engine-bottom">
+            <p>
+              Plug derives designs deterministically. Unknown facts stay
+              unknown, and analysis never invokes your endpoints.
+            </p>
+            <a class="text-link" href="guide.html#workflow"
+              >Explore graphs and edge requirements
+              <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="agent-workflow"
+        class="agent-section wrap section-space"
+        aria-labelledby="agent-title"
+      >
+        <div class="agent-copy">
+          <span class="eyebrow">03 / FROM DESIGN TO CODE</span>
+          <h2 id="agent-title">
+            Your system design.<br /><span class="muted"
+              >In your agent’s context.</span
+            >
+          </h2>
+          <p>
+            Plug exposes your workflow and its requirements through an MCP
+            server. Add it to your agentic IDE so the agent can consult the
+            design before changing an integration.
+          </p>
+          <p>
+            The workspace spec and agent instructions carry your intent into
+            implementation. When an integration changes, the agent can update
+            the spec and ask Plug to re-analyze it.
+          </p>
+          <a class="text-link" href="guide.html#ide"
+            >Set up MCP and agent guidance <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="agent-artifact">
+          <div class="artifact-bar mono">
+            <span><span class="status-dot"></span> THE SPEC OF RECORD</span
+            ><span>.plug/</span>
+          </div>
+          <div class="file-tree mono">
+            <div><span>├─</span> workflow.yaml <em>shared intent</em></div>
+            <div><span>├─</span> design-input.json <em>declared facts</em></div>
+            <div><span>├─</span> design.json <em>design + proofs</em></div>
+            <div><span>├─</span> design.md <em>human-readable</em></div>
+            <div><span>└─</span> AGENTS.md <em>design instructions</em></div>
+          </div>
+          <div
+            class="agent-loop"
+            aria-label="The coding agent reads the spec, updates it through Plug MCP, and Plug validates and re-analyzes it"
+          >
+            <span>Coding agent</span
+            ><span class="loop-arrow" aria-hidden="true">⇄</span
+            ><span>Plug MCP</span
+            ><span class="loop-arrow" aria-hidden="true">⇄</span
+            ><span>Spec</span>
+          </div>
+          <p class="artifact-note">Read → update → validate → re-analyze</p>
+          <div class="agent-compat mono">
+            Cursor / VS Code / Claude / Generic MCP
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="get-started"
+        class="start-section wrap section-space"
+        aria-labelledby="start-title"
+      >
+        <div class="start-copy">
+          <span class="eyebrow">04 / TRY IT LOCALLY</span>
+          <h2 id="start-title">Start with<br />one connection.</h2>
+          <p>
+            Open the workbench. Describe your systems, draw a connection, and
+            make its requirements explicit.
+          </p>
+          <a class="text-link" href="guide.html#quickstart"
+            >Read the setup guide <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="quickstart">
+          <div class="terminal-header mono">
+            <span>FROM SOURCE / NODE 24</span
+            ><button
+              type="button"
+              id="copy-commands"
+              aria-label="Copy setup commands"
+            >
+              Copy <span aria-hidden="true">⧉</span>
+            </button>
+          </div>
+          <pre><code id="setup-commands">git clone git@github.com:plugproject/plug.git
+cd plug
+nvm use
+npm ci
+npm run dev</code></pre>
+          <div class="terminal-footer">
+            <span class="status-dot"></span
+            ><span>Local workbench at <code>localhost:3000</code></span>
+          </div>
+          <p class="setup-note">
+            Requires repository access and Node 24. Public npm distribution is
+            not yet available.
+          </p>
+          <span id="copy-status" role="status" class="sr-only"></span>
+        </div>
+      </section>
+
+      <section
+        id="build-with-us"
+        class="project-section wrap section-space"
+        aria-labelledby="project-title"
+      >
+        <div class="section-heading">
+          <span class="eyebrow">05 / THE PROJECT</span>
+          <div class="split-heading">
+            <h2 id="project-title">
+              Keep business intent<br />connected to the code.
+            </h2>
+            <p>
+              Plug is early. The spec is a draft.<br />These are the problems
+              we’re working on.
+            </p>
+          </div>
+        </div>
+        <a class="project-row" href="guide.html#patterns"
+          ><span class="mono muted">01</span>
+          <h3>Grow the pattern knowledge.</h3>
+          <p>Make remedies, obligations, and tradeoffs explicit.</p>
+          <span aria-hidden="true">↗</span></a
+        >
+        <a class="project-row" href="guide.html#intake"
+          ><span class="mono muted">02</span>
+          <h3>Bring more systems into view.</h3>
+          <p>Improve workspace indexing and MCP / A2A intake.</p>
+          <span aria-hidden="true">↗</span></a
+        >
+        <a class="project-row" href="guide.html#specification"
+          ><span class="mono muted">03</span>
+          <h3>Challenge the specification.</h3>
+          <p>Test the assumptions. Help define the contract.</p>
+          <span aria-hidden="true">↗</span></a
+        >
+        <div class="project-status">
+          <span class="mono status-label"
+            ><span class="status-dot"></span> CURRENT SCOPE</span
+          >
+          <p>
+            Architecture output is a design, not a deployed integration.
+            Execution is limited to seed designs. Distribution licensing is
+            still being decided; issues and ideas are the best way to contribute
+            today.
+          </p>
+        </div>
+      </section>
+
+      <section class="closing wrap">
+        <div>
+          <span class="eyebrow"
+            >YOUR REQUIREMENTS. YOUR WORKFLOW. YOUR AGENT.</span
+          >
+          <h2>From business intent<br />to a shared system design.</h2>
+        </div>
+        <a class="button button-dark" href="guide.html#quickstart"
+          >Start with the guide <span aria-hidden="true">↗</span></a
+        >
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <a class="brand" href="#" aria-label="Plug home"
+        ><svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M10 3v9M22 3v9M6 12h20v5a10 10 0 0 1-10 10v3M6 17h20" /></svg
+        ><span>plug</span></a
+      ><span class="mono small muted">Business intent, by design.</span>
+      <div>
+        <a href="guide.html">Workflow guide ↗</a
+        ><a href="guide.html#source">Repository access ↗</a>
+      </div>
+    </footer>
+  </body>
+</html>
